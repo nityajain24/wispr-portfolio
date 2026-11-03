@@ -2,7 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import StoryCover from '../../components/StoryCover.astro';
 import ClaimText from '../../components/ClaimText.astro';
-import AlfredDemo from '../../components/AlfredDemo.astro';
 import { stories } from '../../data/stories';
 import { sources } from '../../data/sources';
 import { url } from '../../data/url';
@@ -63,9 +62,21 @@ const kindLabel = { primary: 'Primary', self: 'My own', archive: 'Archive', mirr
 
       {story.id === 'alfred' && (
         <section class="demo-wrap">
-          <h2>How a dinner goes</h2>
+          <h2>Alfred, for real</h2>
           <span class="ul" aria-hidden="true"><svg viewBox="0 0 300 16" preserveAspectRatio="none"><path pathLength="1" d="M2 10 C 60 4, 110 14, 160 8 S 240 12, 298 7" /></svg></span>
-          <AlfredDemo />
+          <div class="proof">
+            <figure class="film">
+              <video controls playsinline preload="none" poster="https://textalfred.github.io/assets/film/alfred-film-poster.jpg" width="1920" height="1080">
+                <source src="https://textalfred.github.io/assets/film/alfred-film.mp4" type="video/mp4" />
+                <a href="https://textalfred.github.io/film.html">Watch the film</a>
+              </video>
+              <figcaption>The 40-second film from <a href="https://textalfred.github.io/" rel="noopener">Alfred’s waitlist site</a>. Sound on.</figcaption>
+            </figure>
+            <figure class="shot">
+              <img src={url('img/alfred-whatsapp.jpg')} width="640" height="1388" loading="lazy" alt="WhatsApp group called Cook didi with two voice notes from Alfred, and a shared Instagram reel tagged @alfred. Other names are blacked out." />
+              <figcaption>Alfred’s voice notes in our cook’s WhatsApp group, from <a href="https://x.com/nityajain__/status/2107794422104838253" rel="noopener">my post on X</a>. Names hidden.</figcaption>
+            </figure>
+          </div>
         </section>
       )}
 
@@ -90,7 +101,7 @@ const kindLabel = { primary: 'Primary', self: 'My own', archive: 'Archive', mirr
 
       <nav class="pager" aria-label="More stories">
         {prev ? <a class="press" href={url(`work/${prev.id}/`)}><span data-wave>← {prev.title}</span></a> : <span />}
-        {next ? <a class="press" href={url(`work/${next.id}/`)}><span data-wave>{next.title} →</span></a> : <a class="press" href={url('growth/')}><span data-wave>Growth, honestly →</span></a>}
+        {next ? <a class="press" href={url(`work/${next.id}/`)}><span data-wave>{next.title} →</span></a> : <a class="press" href={url('growth/')}><span data-wave>What I’ve owned in growth →</span></a>}
       </nav>
     </div>
   </article>
@@ -103,6 +114,12 @@ const kindLabel = { primary: 'Primary', self: 'My own', archive: 'Archive', mirr
   .tension { margin: clamp(2.5rem, 2rem + 3vw, 5rem) 0; padding: 0; max-width: 48rem; font: italic 400 var(--fs-h3)/1.15 var(--serif); letter-spacing: -0.03em; }
 
   .demo-wrap, .src { margin-top: clamp(3rem, 2rem + 4vw, 6rem); }
+  .proof { display: grid; gap: 1.5rem; margin-top: 1.5rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
+  @media (min-width: 768px) { .proof { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); } }
+  .proof figure { margin: 0; }
+  .proof video, .proof img { display: block; width: 100%; height: auto; border: var(--bw) solid var(--ink); border-radius: var(--r-card); background: var(--ink); box-shadow: var(--shadow-hard); }
+  .shot { max-width: 20rem; }
+  .proof figcaption { font-size: 0.875rem; color: var(--ink-soft); margin-top: 0.75rem; }
   .demo-wrap h2, .src h2, .hard h2 { font-size: var(--fs-h2); line-height: 1.1; margin-bottom: 0.1em; }
 
   .hard { margin-top: clamp(3rem, 2rem + 4vw, 6rem); background: var(--lilac); border: var(--bw) solid var(--ink); border-radius: var(--r-section); padding: clamp(1.5rem, 1rem + 3vw, 4rem); }

@@ -5,18 +5,18 @@ import type { Story } from './types';
 export const stories: Story[] = [
   {
     id: 'ghy',
-    chapter: 'Chapter 1 · Organise a community',
+    chapter: 'Chapter 1 · Start alone, then scale',
     title: 'Ghy Fights Covid',
     when: 'Guwahati, April to September 2021',
-    summary: 'A volunteer-run resource directory for Guwahati during the second wave.',
+    summary: 'A resource directory for Guwahati in the second wave. I started it alone, then scaled it with volunteers.',
     tension: 'The hard part wasn’t the app. It was keeping the information useful as the situation changed.',
     problem:
       'During the second wave, information about beds, oxygen and doctors in Guwahati was scattered across posts, forwards and phone calls.',
     myPart: [
-      { id: 'ghy-glide', text: 'Learned Glide at a workshop and built a resource directory for Guwahati.', state: 'self-reported', sourceIds: ['S22', 'S20'], publicReady: true },
-      { id: 'ghy-recruit', text: 'Asked for help on Twitter. Within a week, a remote volunteer team was working.', state: 'self-reported', sourceIds: ['S22'], publicReady: true },
+      { id: 'ghy-glide', text: 'Started it on my own: the idea, the concept and the first build. I learned Glide at a workshop and made the directory.', state: 'self-reported', sourceIds: ['S22', 'S20'], publicReady: true },
+      { id: 'ghy-recruit', text: 'It grew faster than one person could keep up with, so I asked for help on Twitter. Within a week, a remote volunteer team was working.', state: 'self-reported', sourceIds: ['S22'], publicReady: true },
     ],
-    teamCredit: 'Built and run by a volunteer team. The launch coverage credits the group, and so do I.',
+    teamCredit: 'I started it alone. The volunteers who joined are why it kept going, and the launch coverage credits the group.',
     decisions: [
       { id: 'ghy-split', text: 'Split the work into verification, finding needs, logistics, app updates and awareness content, with a Discord channel for each function.', state: 'self-reported', sourceIds: ['S22'], publicReady: true },
       { id: 'ghy-verify', text: 'Checked leads by hand before listing them, instead of publishing everything that came in.', state: 'self-reported', sourceIds: ['S20'], publicReady: true },
@@ -63,13 +63,14 @@ export const stories: Story[] = [
       'Every evening, dinner gets decided and passed on to our cook in the household WhatsApp group, in Hindi.',
     myPart: [
       { id: 'alf-built', text: 'Built Alfred myself as a personal WhatsApp assistant.', state: 'self-reported', sourceIds: ['S17'], publicReady: true },
+      { id: 'alf-site', text: 'Made a waitlist site and a 40-second film for it.', state: 'public-record', sourceIds: ['S35', 'S36'], publicReady: true },
     ],
     decisions: [
       { id: 'alf-surface', text: 'Put it inside the WhatsApp group the household already used, rather than a new app.', state: 'self-reported', sourceIds: ['S17'], publicReady: true },
       { id: 'alf-voice', text: 'Made the output a voice note, because that is how the message was already being sent.', state: 'self-reported', sourceIds: ['S17'], publicReady: true },
     ],
     outcomes: [
-      { id: 'alf-dinner', text: 'Asks what I want for dinner, suggests options from my preferences, and sends my reply to the cook as a voice note.', state: 'self-reported', sourceIds: ['S17'], publicReady: true },
+      { id: 'alf-dinner', text: 'Asks what I want for dinner, suggests options from my preferences, and sends my reply to the cook as a voice note.', state: 'public-record', sourceIds: ['S17', 'S34'], publicReady: true },
       { id: 'alf-grocery', text: 'When an ingredient is missing, it continues to an Instamart order through Swiggy’s MCP.', state: 'self-reported', sourceIds: ['S18'], publicReady: true },
     ],
     stillHard: 'It works for one household. I haven’t shown it works for anyone else, and I’m not claiming it does.',

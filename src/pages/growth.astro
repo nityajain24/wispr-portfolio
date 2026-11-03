@@ -1,41 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { url } from '../data/url';
 
-const ownership = [
-  { area: 'Recruiting and coordinating a community', level: 'Shown', where: 'Ghy Fights Covid: recruited volunteers on Twitter and organised them by function.' },
-  { area: 'Launching a product to an audience', level: 'Shown, with a team', where: 'Two Product Hunt launches at Mystic Labs.' },
-  { area: 'Listening to users and changing course', level: 'Partly shown', where: 'Launch-thread replies, the move from ChaturGPT to Bloc, and building Alfred around my own household.' },
-  { area: 'Partnerships', level: 'Exposure', where: 'Worked on an EV-financing partnership during a product internship at CASHe.' },
-  { area: 'Owning a repeatable, measured acquisition channel', level: 'Not yet proven', where: 'This is the gap I want the role to close.' },
+// What I owned, lead first. The one gap stays, but as a footnote, not the headline.
+const owned = [
+  { what: 'Started a community product, then scaled it with people', where: 'Ghy Fights Covid', href: 'work/ghy/', detail: 'Came up with it and built it alone. When it outgrew me, I recruited volunteers on Twitter within a week and organised them by function: verification, needs, logistics, app updates and awareness.' },
+  { what: 'Positioning and onboarding', where: 'Bloc, Mystic Labs', href: 'work/mystic/', detail: 'Focused on how businesses understood Bloc and got set up with it, and worked on its early B2B pilots.' },
+  { what: 'Launching to an audience', where: 'ChaturGPT and Bloc', href: 'work/mystic/', detail: 'Maker on both Product Hunt launches, #12 and #5 of the day, answering users in the launch threads.' },
+  { what: 'Building around an existing habit', where: 'Alfred', href: 'work/alfred/', detail: 'Put it in the WhatsApp group my household already used, and made the output a voice note because that’s how the message was already sent.' },
+  { what: 'Partnerships', where: 'CASHe', href: 'about/', detail: 'Worked on an EV-financing partnership during a product internship.' },
 ];
 ---
-<Layout title="Growth, honestly" current="growth">
+<Layout title="Growth" current="growth">
   <header class="wrap head">
-    <p class="eyebrow">Growth, honestly</p>
-    <h1 tabindex="-1">What I’ve shown, <em>and what I haven’t</em></h1>
+    <p class="eyebrow">Growth</p>
+    <h1 tabindex="-1">What I’ve <em>owned</em></h1>
   </header>
   <div class="wrap">
-    <ul class="own">
-      {ownership.map((o) => (
-        <li>
-          <span class={`tag level ${{ 'Shown': 'lv-lilac', 'Shown, with a team': 'lv-lilac', 'Partly shown': 'lv-peach', 'Exposure': 'lv-dash', 'Not yet proven': 'lv-ink' }[o.level]}`}>{o.level}</span>
-          <div><strong>{o.area}</strong><p class="muted">{o.where}</p></div>
+    <ol class="own">
+      {owned.map((o) => (
+        <li data-reveal>
+          <a class="where" href={url(o.href)}>{o.where}</a>
+          <div><h2>{o.what}</h2><p>{o.detail}</p></div>
         </li>
       ))}
-    </ul>
+    </ol>
+    <p class="gap"><strong>Not yet proven:</strong> owning a repeatable, measured acquisition channel. That’s what I want this role to change.</p>
   </div>
 </Layout>
 
 <style>
   .head h1 { max-width: 20ch; }
-  .own { list-style: none; padding: 0; margin: 0; max-width: 50rem; }
-  .own li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; padding: 1.3rem 0; border-top: var(--bw) solid var(--line); }
+  .own { list-style: none; padding: 0; margin: 0; max-width: 52rem; }
+  .own li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; padding: 1.5rem 0; border-top: var(--bw) solid var(--line); }
   @media (min-width: 720px) { .own li { grid-template-columns: 11rem minmax(0, 1fr); column-gap: 1.5rem; } }
-  .own strong { font: 400 var(--fs-h4)/1.15 var(--serif); letter-spacing: -0.03em; }
-  .own p { margin: 0.25rem 0 0; }
-  .level { justify-self: start; align-self: start; margin-top: 0.4rem; }
-  .lv-lilac { background: var(--lilac); }
-  .lv-peach { background: var(--peach); }
-  .lv-dash { background: transparent; border-style: dashed; }
-  .lv-ink { background: var(--ink); color: var(--cream); }
+  .where { align-self: start; display: inline-flex; align-items: center; min-height: 44px; font: 600 0.875rem/1.3 var(--sans); letter-spacing: 0.03em; text-transform: uppercase; color: var(--accent); text-decoration: none; }
+  .where:hover { text-decoration: underline; }
+  .own h2 { font-size: var(--fs-h4); line-height: 1.15; margin: 0.35rem 0 0.4rem; }
+  .own p { margin: 0; color: var(--ink-soft); }
+  .gap { max-width: 52rem; margin: 1rem 0 0; padding-top: 1.25rem; border-top: var(--bw) solid var(--ink); color: var(--ink-soft); }
+  .gap strong { color: var(--ink); }
 </style>

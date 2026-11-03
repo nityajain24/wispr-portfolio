@@ -82,9 +82,6 @@ a:hover { text-decoration-color: var(--ink); }
 
 /* evidence tags */
 .tag { display: inline-block; font: 600 0.75rem/1 var(--sans); letter-spacing: 0.07em; text-transform: uppercase; padding: 0.35em 0.6em; border: var(--bw) solid var(--ink); border-radius: 6px; vertical-align: 0.1em; white-space: nowrap; color: var(--ink); }
-.tag.public-record { background: var(--lilac); }
-.tag.corroborated { background: var(--peach); }
-.tag.self-reported { background: transparent; border-style: dashed; }
 .cite { font-size: 0.8em; white-space: nowrap; }
 .cite a { position: relative; }
 .cite a::after { content: ''; position: absolute; inset: -12px -2px; }

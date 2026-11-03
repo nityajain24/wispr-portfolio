@@ -4,10 +4,9 @@ import { sources } from '../data/sources';
 
 interface Props { claim: Claim }
 const { claim } = Astro.props;
-const label = { 'self-reported': 'Self-reported', 'public-record': 'Public record', corroborated: 'Corroborated', hold: '' }[claim.state];
 const cited = claim.sourceIds.map((id) => sources.find((s) => s.id === id)!);
 ---
-{claim.text}{' '}<span class={`tag ${claim.state}`}>{label}</span>{' '}
+{claim.text}{' '}
 <span class="cite">{cited.map((s, i) => (
   <>{i > 0 && ' '}<a href={`#src-${s.id}`} aria-label={`Source: ${s.label}`}>[{s.id}]</a></>
 ))}</span>
