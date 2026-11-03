@@ -1,0 +1,97 @@
+---
+// Typographic covers: drawn here, not screenshots, so they never pose as historical evidence.
+// Everything is sized in container units (cqh/cqw) so the composition fills the cover at card and hero size.
+interface Props { id: 'ghy' | 'mystic' | 'alfred'; size?: 'card' | 'hero' }
+const { id, size = 'card' } = Astro.props;
+---
+<div class={`cover cover-${id} ${size}`} aria-hidden="true">
+  {id === 'ghy' && (
+    <div class="ghy">
+      <i class="back b1"><b></b><b></b><b></b></i>
+      <i class="back b2"><b></b><b></b><b></b></i>
+      <div class="main">
+        <div class="top">
+          <span class="place">Guwahati</span>
+          <span class="year">2021</span>
+        </div>
+        <ul>
+          <li>Resource listings</li>
+          <li>Doctor contacts</li>
+        </ul>
+      </div>
+      <span class="ask">Ask for help →</span>
+    </div>
+  )}
+  {id === 'mystic' && (
+    <div class="mystic">
+      <span class="dot d1"></span>
+      <span class="dot d2"></span>
+      <span class="dot d3"></span>
+      <span class="stamp"><small>ChaturGPT</small><em>#12</em></span>
+      <span class="stamp big"><small>Bloc</small><em>#5</em></span>
+      <span class="ph">Product of the day ranks</span>
+    </div>
+  )}
+  {id === 'alfred' && (
+    <div class="alfred">
+      <i class="b ghost g1"><b></b></i>
+      <span class="b me">paneer bhurji tonight</span>
+      <span class="b bot"><i class="play"></i><i class="wave"></i> 0:06 · हिंदी</span>
+      <i class="b ghost g2"><b></b></i>
+    </div>
+  )}
+</div>
+
+<style>
+  .cover { position: relative; overflow: hidden; border-radius: calc(var(--r-card) - 1rem + 4px); aspect-ratio: 16 / 10; container-type: size; display: grid; place-items: center; color: var(--ink); }
+  .cover.hero { aspect-ratio: 21 / 9; border: var(--bw) solid var(--ink); border-radius: var(--r-section); }
+  @media (max-width: 767px) { .cover.hero { aspect-ratio: 16 / 10; } }
+
+  /* ---------- Ghy: a directory card, with other cards stacked behind ---------- */
+  .cover-ghy { background: var(--lilac); }
+  .ghy { position: relative; width: min(94cqw, 200cqh); height: 80cqh; }
+  .back { position: absolute; top: 6cqh; bottom: 6cqh; width: 40%; background: var(--cream-2); border: var(--bw) solid var(--ink); border-radius: var(--r-panel); box-shadow: var(--shadow-hard); display: grid; align-content: start; gap: 8cqh; padding: 9cqh 7%; }
+  .back b { display: block; height: 4cqh; min-height: 6px; background: var(--ink); opacity: 0.25; border-radius: 99px; }
+  .back b:nth-child(2) { width: 70%; }
+  .back b:nth-child(3) { width: 45%; }
+  .b1 { left: 0; background: var(--peach); transform: rotate(-7deg); }
+  .b2 { right: 0; background: var(--blush); transform: rotate(6deg); }
+  .main { position: absolute; left: 21%; right: 21%; top: 0; bottom: 12cqh; display: flex; flex-direction: column; justify-content: space-between; gap: 4cqh; padding: 6cqh 5cqh 5cqh; background: var(--cream-2); border: var(--bw) solid var(--ink); border-radius: var(--r-card); box-shadow: var(--shadow-hard); transform: rotate(-1.5deg); }
+  .top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5em; }
+  .place { font: italic 400 clamp(1.5rem, 16cqh, 5rem)/1 var(--serif); letter-spacing: -0.03em; }
+  .year { font: 600 max(12px, 5.5cqh)/1 var(--sans); letter-spacing: 0.07em; }
+  .main ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3.5cqh; }
+  .main li { padding: 0.4em 0.8em; border: var(--bw) solid var(--ink); border-radius: var(--r-btn); background: var(--cream); font: 500 clamp(12px, 6.5cqh, 1.6rem)/1.15 var(--sans); }
+  .ask { position: absolute; right: 12%; bottom: 0; padding: 0.55em 1em; background: var(--ink); color: var(--cream); border: var(--bw) solid var(--ink); border-radius: var(--r-btn); font: 600 clamp(12px, 6.5cqh, 1.6rem)/1.1 var(--sans); white-space: nowrap; transform: rotate(3deg); box-shadow: 4px 4px 0 0 var(--cream), 6px 6px 0 0 var(--ink); }
+
+  /* ---------- Mystic: overlapping rank stamps with a ribbon ---------- */
+  .cover-mystic { background: var(--blush); }
+  .mystic { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding-bottom: 8cqh; }
+  .stamp { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2cqh; flex: none; width: 60cqh; aspect-ratio: 1; border-radius: 50%; border: var(--bw) solid var(--ink); background: var(--cream); transform: rotate(-8deg); margin-right: -4cqh; box-shadow: var(--shadow-hard); }
+  .stamp::before { content: ''; position: absolute; inset: 5%; border: var(--bw) dashed var(--ink); border-radius: 50%; opacity: 0.45; }
+  .stamp.big { z-index: 2; width: 74cqh; background: var(--lilac); transform: rotate(6deg); margin: 0; box-shadow: 4px 4px 0 0 var(--ink); }
+  .stamp small { font: 600 max(12px, 5.2cqh)/1 var(--sans); letter-spacing: 0.07em; text-transform: uppercase; }
+  .stamp em { font: 400 clamp(2rem, 24cqh, 7rem)/0.9 var(--serif); font-style: normal; letter-spacing: -0.03em; }
+  .stamp.big em { font-size: clamp(2.4rem, 30cqh, 8.5rem); }
+  .ph { position: absolute; z-index: 3; left: -4%; right: -4%; bottom: 7cqh; padding: 0.6em 0; text-align: center; background: var(--ink); color: var(--cream); font: 600 max(12px, 5.2cqh)/1.2 var(--sans); letter-spacing: 0.07em; text-transform: uppercase; transform: rotate(-2.5deg); }
+  .dot { position: absolute; width: 11cqh; aspect-ratio: 1; border: var(--bw) solid var(--ink); border-radius: 50%; }
+  .d1 { left: 8%; top: 12%; background: var(--lilac); }
+  .d2 { right: 9%; top: 18%; background: var(--peach); width: 8cqh; }
+  .d3 { right: 22%; bottom: 24%; background: var(--cream); width: 6cqh; }
+
+  /* ---------- Alfred: WhatsApp-style bubbles, voice note forward ---------- */
+  .cover-alfred { background: var(--peach); }
+  .alfred { width: min(92cqw, 190cqh); display: grid; gap: 5cqh; }
+  .b { padding: 0.65em 1em; border: var(--bw) solid var(--ink); border-radius: 18px; font: 500 clamp(12px, 8cqh, 2rem)/1.2 var(--sans); max-width: 88%; box-shadow: var(--shadow-hard); }
+  .b.me { justify-self: end; background: var(--lilac); border-bottom-right-radius: 4px; transform: rotate(1.5deg); }
+  .b.bot { justify-self: start; background: var(--cream-2); display: flex; align-items: center; gap: 0.7em; border-bottom-left-radius: 4px; transform: rotate(-1.5deg); padding: 0.8em 1.1em; font-size: clamp(12px, 8.5cqh, 2.1rem); }
+  .ghost { display: block; height: 14cqh; background: var(--cream); opacity: 0.85; box-shadow: none; padding: 0; position: relative; }
+  .ghost b { position: absolute; left: 10%; top: 40%; height: 18%; border-radius: 99px; background: var(--ink); opacity: 0.2; }
+  .g1 { justify-self: start; width: 46%; border-bottom-left-radius: 4px; }
+  .g1 b { width: 70%; }
+  .g2 { justify-self: end; width: 38%; background: var(--lilac); border-bottom-right-radius: 4px; }
+  .g2 b { width: 55%; }
+  .play { flex: none; width: 1.7em; height: 1.7em; border-radius: 50%; background: var(--ink); position: relative; }
+  .play::after { content: ''; position: absolute; left: 36%; top: 26%; border-style: solid; border-width: 0.4em 0 0.4em 0.65em; border-color: transparent transparent transparent var(--cream); }
+  .wave { flex: none; display: inline-block; width: 6em; height: 1.2em; background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 5px); }
+</style>

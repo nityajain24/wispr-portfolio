@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { sources } from '../data/sources';
+
+const kindLabel = { primary: 'Primary', self: 'My own', archive: 'Archive', mirror: 'Mirror', press: 'Press' } as const;
+---
+<Layout title="Sources">
+  <header class="wrap head">
+    <p class="eyebrow">Check my work</p>
+    <h1 tabindex="-1">Sources</h1>
+    <p class="muted">Everything the site cites. Archives and mirrors are labelled as such.</p>
+  </header>
+  <div class="wrap">
+    <ol class="srclist">
+      {sources.map((s) => (
+        <li id={`src-${s.id}`}>
+          <span class="sid">{s.id}</span>
+          <span><a href={s.url} rel="noopener">{s.label}</a> <span class="muted">· {kindLabel[s.kind]}{s.note ? `. ${s.note}` : ''}</span></span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Layout>

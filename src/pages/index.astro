@@ -1,0 +1,170 @@
+---
+import Layout from '../layouts/Layout.astro';
+import StoryCover from '../components/StoryCover.astro';
+import { stories } from '../data/stories';
+import { sources } from '../data/sources';
+import { validate } from '../data/validate';
+import { url } from '../data/url';
+
+validate(stories, sources);
+// Hero photo stack, front first. x is the crop focus for the 4:5 frame.
+const photos = [
+  { src: 'img/me-suit.jpg', w: 540, h: 359, x: '42%' },
+  { src: 'img/me-laptop.jpg', w: 360, h: 480, x: '50%' },
+  { src: 'img/me-karting.jpg', w: 540, h: 360, x: '78%' },
+];
+const names = ['Ghy Fights Covid', 'Mystic Labs', 'ChaturGPT', 'Bloc', 'Alfred'];
+---
+<Layout>
+  <section class="hero wrap">
+    <div class="hero-in">
+      <p class="eyebrow" data-reveal style="--d:0">Things I got people to use</p>
+      <h1 tabindex="-1" data-reveal style="--d:1">I’m Nitya. I build around <em>the way people already live.</em></h1>
+      <p class="lede" data-reveal style="--d:3">A directory for Guwahati. AI products launched with a team. A WhatsApp assistant that speaks Hindi to our cook.</p>
+    </div>
+    <div class="hero-art" data-reveal style="--d:2">
+      <div class="stack" role="img" aria-label="Photos of Nitya: in a grey suit against a brick wall, working on a laptop, and at a Team Karting Manipal event">
+        {photos.map((ph, i) => (
+          <figure class="ph" data-pos={i} style={`--pos-x:${ph.x}`}>
+            <img src={url(ph.src)} alt="" width={ph.w} height={ph.h} decoding="async" />
+          </figure>
+        ))}
+        <span class="sticker" aria-hidden="true">
+          <span class="fn">fn</span>
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8" />
+            <ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="1.8" />
+            <path d="M3 12h18M5 7h14M5 17h14" fill="none" stroke="currentColor" stroke-width="1.8" />
+          </svg>
+        </span>
+      </div>
+    </div>
+    <a class="cue" href="#stories" data-reveal style="--d:5">Scroll for the stories <span aria-hidden="true">↓</span></a>
+  </section>
+
+  <div class="marquee" aria-hidden="true" data-reveal>
+    <div class="track">
+      <ul class="group">{names.map((n) => <li>{n}</li>)}</ul>
+      <ul class="group" aria-hidden="true">{names.map((n) => <li>{n}</li>)}</ul>
+    </div>
+  </div>
+
+  <section class="wrap cards" id="stories" aria-label="Stories">
+    {stories.map((s, i) => (
+      <a class="card press" data-reveal style={`--d:${i}`} href={url(`work/${s.id}/`)}>
+        <StoryCover id={s.id} />
+        <span class="eyebrow">{s.chapter.split(' · ')[1]}</span>
+        <h2>{s.title}</h2>
+        <p>{s.summary}</p>
+        <span class="more" data-wave>Read the story →</span>
+      </a>
+    ))}
+  </section>
+
+  <section class="wrap strip">
+    <a class="card press" data-reveal style="--d:0" href={url('growth/')}><span class="eyebrow">Growth, honestly</span><strong>What I’ve shown, and what I haven’t →</strong></a>
+    <a class="card press" data-reveal style="--d:1" href={url('voice/')}><span class="eyebrow">Built by voice</span><strong>The prompts I spoke to build this →</strong></a>
+  </section>
+</Layout>
+
+<style>
+  /* First screen is just the thesis; everything else arrives on scroll. */
+  .hero { min-height: calc(100svh - 6.5rem); display: grid; grid-template-rows: 1fr auto auto; align-items: center; padding-top: clamp(1rem, 0.5rem + 2vw, 3rem); padding-bottom: 1.5rem; overflow-x: clip; }
+  .hero-art { display: grid; place-items: center; padding: 0.5rem 1.25rem 2rem 0; }
+  .hero-art .stack { width: min(13.5rem, 56vw); }
+  @media (max-width: 991px) and (max-height: 500px) { .hero-art { display: none; } }
+  @media (min-width: 992px) {
+    .hero { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: 3rem; }
+    .hero-in { grid-column: 1; grid-row: 1; }
+    .hero-art { grid-column: 2; grid-row: 1; padding: 0; }
+    .hero-art .stack { width: clamp(12.5rem, 24vw, 21rem); }
+    .cue { grid-column: 1 / -1; grid-row: 2; }
+  }
+  /* Photo stack: the front photo flicks to the back every few seconds (script below). */
+  .stack { position: relative; width: clamp(12.5rem, 24vw, 21rem); aspect-ratio: 4 / 5; }
+  .ph {
+    position: absolute; inset: 0; margin: 0; overflow: hidden;
+    border: var(--bw) solid var(--ink); border-radius: var(--r-card); background: var(--lilac); box-shadow: var(--shadow-hard);
+    transition: transform 0.9s var(--ease-out), filter 0.9s var(--ease-out);
+  }
+  .ph img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos-x, 50%) 40%; }
+  .ph[data-pos="0"] { z-index: 3; transform: rotate(-3deg); }
+  .ph[data-pos="1"] { z-index: 2; transform: translate(7%, 3%) rotate(5deg); filter: saturate(0.75) brightness(0.97); }
+  .ph[data-pos="2"] { z-index: 1; transform: translate(-7%, 5%) rotate(-9deg); filter: saturate(0.6) brightness(0.94); }
+  .ph.out { animation: flick 0.9s var(--ease-out) both; }
+  @keyframes flick {
+    0% { z-index: 3; transform: rotate(-3deg); }
+    45% { z-index: 3; transform: translate(-55%, -6%) rotate(-16deg); }
+    55% { z-index: 0; transform: translate(-50%, -2%) rotate(-14deg); }
+    100% { z-index: 0; transform: translate(-7%, 5%) rotate(-9deg); }
+  }
+  .sticker {
+    position: absolute; z-index: 4; right: -1.25rem; bottom: -1.25rem; width: 4.5rem; aspect-ratio: 1;
+    border: var(--bw) solid var(--ink); border-radius: 18%; background: var(--lilac); box-shadow: var(--shadow-hard);
+    transform: rotate(8deg);
+  }
+  .sticker .fn { position: absolute; top: 12%; right: 15%; font: 600 1.05rem/1 var(--sans); }
+  .sticker svg { position: absolute; left: 14%; bottom: 13%; width: 26%; height: auto; }
+  .cue { justify-self: start; display: inline-flex; align-items: center; gap: 0.5rem; min-height: 44px; font-weight: 600; text-decoration: none; color: var(--ink-soft); }
+  .cue:hover { color: var(--ink); }
+  .cue span { display: inline-block; animation: bob 2s var(--ease-out) infinite; }
+  @keyframes bob { 0%, 100% { transform: none; } 50% { transform: translateY(4px); } }
+  .hero h1 { font-size: var(--fs-display); line-height: 0.9; max-width: 14ch; margin-bottom: 0.3em; outline: none; }
+
+  .marquee { overflow: clip; border-block: var(--bw) solid var(--ink); padding: 1.25rem 0; background: var(--cream); }
+  .track { display: flex; width: max-content; animation: ticker 40s linear infinite; }
+  .marquee:hover .track { animation-play-state: paused; }
+  .group { display: flex; align-items: center; gap: 4rem; padding-right: 4rem; list-style: none; margin: 0; }
+  .group li { font: 400 clamp(2rem, 1.4rem + 2.6vw, 3.5rem)/1 var(--serif); letter-spacing: -0.03em; white-space: nowrap; display: flex; align-items: center; gap: 4rem; }
+  .group li::after { content: ''; width: 0.9rem; height: 0.9rem; border: var(--bw) solid var(--ink); border-radius: 50%; background: var(--lilac); }
+  .group li:nth-child(even)::after { background: var(--blush); }
+  @keyframes ticker { to { transform: translateX(-50%); } }
+
+  .cards { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); padding-top: var(--section-y); }
+  @media (min-width: 992px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .card h2 { font-size: var(--fs-h4); line-height: 1.15; margin: 0.5rem 0 0; }
+  .card .eyebrow { margin: 0.75rem 0 0; font-size: 0.875rem; }
+  .card p { margin: 0; color: var(--ink-soft); }
+  .card .more { margin-top: 0.5rem; font-weight: 600; }
+  .card > .eyebrow, .card > h3, .card > p, .card > .more { padding-inline: 0.5rem; }
+  .card > .more { padding-bottom: 0.5rem; }
+
+  .strip { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-top: 1.5rem; }
+  @media (min-width: 768px) { .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .strip .card { padding: 1.5rem; }
+  .strip .card:nth-child(1) { background: var(--lilac); }
+  .strip .card:nth-child(2) { background: var(--peach); }
+  .strip strong { font: 400 var(--fs-h4)/1.15 var(--serif); letter-spacing: -0.03em; }
+  .strip .eyebrow { margin: 0; color: var(--ink); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cue span { animation: none; }
+    .track { animation: none; flex-wrap: wrap; width: auto; }
+    .group[aria-hidden='true'] { display: none; }
+    .group { flex-wrap: wrap; row-gap: 1rem; }
+  }
+</style>
+
+<script>
+  // Photo stack: every 3.5s the front photo flicks to the back. Pauses on hover, while the
+  // tab is hidden, and behind the entry gate; reduced motion keeps the first photo still.
+  const stack = document.querySelector<HTMLElement>('.stack');
+  const root = document.documentElement;
+  if (stack && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const cards = [...stack.querySelectorAll<HTMLElement>('.ph')];
+    let hover = false;
+    stack.addEventListener('mouseenter', () => { hover = true; });
+    stack.addEventListener('mouseleave', () => { hover = false; });
+    setInterval(() => {
+      if (hover || document.hidden || root.classList.contains('gate-on')) return;
+      cards.forEach((c) => {
+        const p = Number(c.dataset.pos);
+        if (p === 0) {
+          c.classList.add('out');
+          c.addEventListener('animationend', () => c.classList.remove('out'), { once: true });
+        }
+        c.dataset.pos = String((p + cards.length - 1) % cards.length);
+      });
+    }, 3500);
+  }
+</script>

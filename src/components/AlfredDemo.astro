@@ -1,0 +1,28 @@
+---
+// A reconstruction, not a screenshot. No real names, numbers or messages.
+---
+<figure class="demo" aria-labelledby="alfred-demo-cap">
+  <ol class="chat">
+    <li class="msg bot"><span class="who">Alfred · 7:30 pm</span>What are you in the mood for tonight? Going by what you’ve liked lately: rajma chawal, paneer bhurji with roti, or khichdi.</li>
+    <li class="msg me"><span class="who">Me</span>paneer bhurji, and keep the rotis soft</li>
+    <li class="msg bot"><span class="who">Alfred → kitchen group</span>
+      <span class="voice" aria-label="Voice note in Hindi"><span class="wave" aria-hidden="true"></span> 0:06</span>
+      <span class="hi" lang="hi">आज रात पनीर भुर्जी और नरम रोटियाँ बनाइए।</span>
+      <span class="tr">“Tonight, please make paneer bhurji and soft rotis.”</span></li>
+    <li class="msg bot"><span class="who">Alfred</span>We’re out of paneer. Want me to order some on Instamart?</li>
+  </ol>
+  <figcaption id="alfred-demo-cap">Reconstruction of the flow described in my posts. Dishes, wording and timing are illustrative; it doesn’t place real orders.</figcaption>
+</figure>
+
+<style>
+  .demo { margin: 1rem 0 1.5rem; max-width: 28rem; padding: 1rem; border-radius: var(--r-card); background: var(--cream-2); border: var(--bw) solid var(--ink); }
+  .chat { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+  .msg { padding: 0.6rem 0.8rem; border: var(--bw) solid var(--ink); border-radius: 12px; font-size: 0.95rem; line-height: 1.45; max-width: 88%; background: var(--cream); }
+  .msg.me { justify-self: end; background: var(--lilac); }
+  .who { display: block; font-size: 0.8125rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 0.2rem; letter-spacing: 0.02em; }
+  .voice { display: flex; align-items: center; gap: 0.5rem; font-variant-numeric: tabular-nums; }
+  .wave { width: 120px; max-width: 100%; height: 18px; background: repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 5px); border-radius: 3px; }
+  .hi, .tr { display: block; margin-top: 0.35rem; }
+  .tr { font-size: 0.85rem; color: var(--ink-soft); font-style: italic; }
+  figcaption { margin-top: 0.8rem; font-size: 0.8rem; color: var(--ink-soft); }
+</style>

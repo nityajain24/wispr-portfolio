@@ -1,0 +1,118 @@
+---
+import '../styles/global.css';
+import VoiceGate from '../components/VoiceGate.astro';
+import { url } from '../data/url';
+
+interface Props { title?: string; description?: string; current?: string }
+const {
+  title,
+  description = 'Things I got people to use: a volunteer COVID directory, early AI launches, and a WhatsApp assistant that sends my dinner reply as a Hindi voice note.',
+  current = '',
+} = Astro.props;
+
+const nav = [
+  { href: 'work/', label: 'Work', key: 'work' },
+  { href: 'growth/', label: 'Growth', key: 'growth' },
+  { href: 'voice/', label: 'Built by voice', key: 'voice' },
+  { href: 'about/', label: 'About', key: 'about' },
+];
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ? `${title} · Nitya Jain` : 'Nitya Jain'}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;1,400&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        try { if (sessionStorage.getItem('entered')) return; } catch (e) {}
+        d.classList.add('gate-on');
+        // If the gate script never loads, don't trap the visitor.
+        setTimeout(function () { if (!window.__gateReady) d.classList.remove('gate-on'); }, 4000);
+      })();
+    </script>
+  </head>
+  <body>
+    <VoiceGate />
+    <div class="site">
+      <a class="skip" href="#main">Skip to content</a>
+      <div class="nav-wrap" id="navwrap">
+        <header>
+          <div class="nav" id="nav">
+            <a class="brand" href={url('')}>Nitya Jain</a>
+            <nav aria-label="Main" class="links" id="navlist">
+              <ul>
+                {nav.map((n) => (
+                  <li><a href={url(n.href)} data-wave aria-current={current === n.key ? 'page' : undefined}>{n.label}</a></li>
+                ))}
+              </ul>
+              <span class="pill" id="pill" aria-hidden="true"></span>
+            </nav>
+          </div>
+        </header>
+      </div>
+      <main id="main">
+        <slot />
+      </main>
+      <footer class="foot">
+        <div class="wrap">
+          <p class="big">Built by voice for the Wispr Flow challenge, November 2026.</p>
+          <ul>
+            <li><a href="https://www.linkedin.com/in/nitya-jain-993243243/" rel="noopener" data-wave>LinkedIn</a></li>
+            <li><a href="https://x.com/nityajain__" rel="noopener" data-wave>X</a></li>
+            <li><a href="https://www.producthunt.com/@nitya_jain" rel="noopener" data-wave>Product Hunt</a></li>
+            <li><a href="https://github.com/nityajain24" rel="noopener" data-wave>GitHub</a></li>
+            <li><a href={url('sources/')} data-wave>Sources</a></li>
+          </ul>
+          <p class="indep">Independent portfolio, not affiliated with Wispr.</p>
+        </div>
+      </footer>
+    </div>
+    <script>
+      import '../scripts/ui.ts';
+    </script>
+  </body>
+</html>
+
+<style>
+  .skip { position: fixed; left: 1rem; top: -4rem; z-index: 10001; background: var(--lilac); border: var(--bw) solid var(--ink); border-radius: var(--r-btn); padding: 0.75rem 1rem; font-weight: 600; }
+  .skip:focus { top: 1rem; }
+
+  .nav-wrap { position: fixed; inset: 0 0 auto 0; z-index: 9999; padding: 1rem var(--gutter) 0; pointer-events: none; transition: transform 0.5s var(--ease-nav); }
+  .nav-wrap.is-hidden { transform: translateY(-120%); }
+  .nav { pointer-events: auto; max-width: 64rem; margin: 0 auto; display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0 0.5rem; padding: 0.25rem 0.25rem 0.25rem 0.5rem; background: var(--cream); border: var(--bw) solid var(--line); border-radius: var(--r-nav); }
+  .brand { flex: none; font: 400 1.5rem/1 var(--serif); letter-spacing: -0.03em; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; padding: 0 0.25rem; white-space: nowrap; }
+  /* One row at every width; where the links do not fit they scroll sideways. */
+  .links { position: relative; flex: 0 1 auto; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
+  .links::-webkit-scrollbar { display: none; }
+  .nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: nowrap; width: max-content; }
+  .nav li a { position: relative; z-index: 1; display: inline-flex; align-items: center; min-height: 44px; padding: 0 0.75rem; font: 500 1rem/1 var(--sans); text-decoration: none; white-space: nowrap; transition: color 0.3s ease; }
+  @media (max-width: 479px) {
+    .brand { font-size: 1.25rem; }
+    .nav li a { padding: 0 0.6rem; font-size: 0.9375rem; }
+    .links.can-scroll:not(.at-end) { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 1.5rem), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 1.5rem), transparent); }
+  }
+  .nav li a[aria-current='page'] { background: var(--lilac); border-radius: var(--r-btn); }
+  .nav .pill { position: absolute; top: 50%; left: 0; height: 36px; margin-top: -18px; width: 0; border-radius: var(--r-btn); background: var(--lilac); opacity: 0; pointer-events: none; transition: transform 0.45s var(--ease-out), width 0.45s var(--ease-out), opacity 0.2s; }
+  .nav.has-pill li a[aria-current='page'] { background: none; }
+  .nav .pill.on { opacity: 1; }
+
+  main { padding-top: 6.5rem; }
+
+  .foot { margin-top: var(--section-y); background: var(--ink); color: var(--cream); border-radius: var(--r-section) var(--r-section) 0 0; padding: clamp(3rem, 2rem + 4vw, 6rem) 0 2.5rem; }
+  .foot a { color: var(--cream); text-decoration-color: #ffffeb80; display: inline-flex; align-items: center; min-height: 44px; }
+  .foot a:hover { text-decoration-color: var(--cream); }
+  .foot .big { font: 400 var(--fs-h3)/1.1 var(--serif); letter-spacing: -0.03em; max-width: 20ch; margin: 0 0 2rem; }
+  .foot ul { list-style: none; margin: 0 0 2rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.5rem; }
+  .foot .indep { margin: 0; padding-top: 1.5rem; border-top: var(--bw) solid #ffffeb4d; font-size: 0.875rem; color: #aaaa9a; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nav-wrap, .nav .pill { transition: none; }
+  }
+</style>

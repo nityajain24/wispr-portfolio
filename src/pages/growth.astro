@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const ownership = [
+  { area: 'Recruiting and coordinating a community', level: 'Shown', where: 'Ghy Fights Covid: recruited volunteers on Twitter and organised them by function.' },
+  { area: 'Launching a product to an audience', level: 'Shown, with a team', where: 'Two Product Hunt launches at Mystic Labs.' },
+  { area: 'Listening to users and changing course', level: 'Partly shown', where: 'Launch-thread replies, the move from ChaturGPT to Bloc, and building Alfred around my own household.' },
+  { area: 'Partnerships', level: 'Exposure', where: 'Worked on an EV-financing partnership during a product internship at CASHe.' },
+  { area: 'Owning a repeatable, measured acquisition channel', level: 'Not yet proven', where: 'This is the gap I want the role to close.' },
+];
+---
+<Layout title="Growth, honestly" current="growth">
+  <header class="wrap head">
+    <p class="eyebrow">Growth, honestly</p>
+    <h1 tabindex="-1">What I’ve shown, <em>and what I haven’t</em></h1>
+  </header>
+  <div class="wrap">
+    <ul class="own">
+      {ownership.map((o) => (
+        <li>
+          <span class={`tag level ${{ 'Shown': 'lv-lilac', 'Shown, with a team': 'lv-lilac', 'Partly shown': 'lv-peach', 'Exposure': 'lv-dash', 'Not yet proven': 'lv-ink' }[o.level]}`}>{o.level}</span>
+          <div><strong>{o.area}</strong><p class="muted">{o.where}</p></div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Layout>
+
+<style>
+  .head h1 { max-width: 20ch; }
+  .own { list-style: none; padding: 0; margin: 0; max-width: 50rem; }
+  .own li { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.5rem; padding: 1.3rem 0; border-top: var(--bw) solid var(--line); }
+  @media (min-width: 720px) { .own li { grid-template-columns: 11rem minmax(0, 1fr); column-gap: 1.5rem; } }
+  .own strong { font: 400 var(--fs-h4)/1.15 var(--serif); letter-spacing: -0.03em; }
+  .own p { margin: 0.25rem 0 0; }
+  .level { justify-self: start; align-self: start; margin-top: 0.4rem; }
+  .lv-lilac { background: var(--lilac); }
+  .lv-peach { background: var(--peach); }
+  .lv-dash { background: transparent; border-style: dashed; }
+  .lv-ink { background: var(--ink); color: var(--cream); }
+</style>

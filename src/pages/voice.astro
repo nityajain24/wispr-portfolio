@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { voiceLog } from '../data/voicelog';
+---
+<Layout title="Built by voice" current="voice">
+  <header class="wrap head">
+    <p class="eyebrow">Built by voice</p>
+    <h1 tabindex="-1">The prompts I spoke to build this</h1>
+    <p class="muted lede">Dictated with Wispr Flow into Claude Code. Word for word, with what each one changed.</p>
+  </header>
+  <div class="wrap">
+    <ol class="log">
+      {voiceLog.map((v, i) => (
+        <li>
+          <p class="eyebrow">Prompt {i + 1} · {v.date}</p>
+          <blockquote class="spoken">{v.prompt.split('\n\n').map((p) => <p>{p}</p>)}</blockquote>
+          <div class="out">
+            <p><strong>What changed:</strong> {v.change}</p>
+            {v.limitation && <p class="muted"><strong>Limitation:</strong> {v.limitation}</p>}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Layout>
+
+<style>
+  .head h1 { max-width: 20ch; }
+  .log { list-style: none; padding: 0; margin: 0; max-width: 44rem; display: grid; gap: 3rem; }
+  .log li > .eyebrow { margin-bottom: 0.75rem; }
+  @media (min-width: 992px) {
+    .log { max-width: none; gap: 4rem; }
+    .log li { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); column-gap: 3rem; align-items: start; }
+    .log li > .eyebrow { grid-column: 1 / -1; }
+    .spoken { margin: 0; }
+    .out { padding-top: 0.5rem; border-top: var(--bw) solid var(--ink); position: sticky; top: 7rem; }
+    .out p:first-child { padding-top: 1rem; }
+  }
+  .spoken { margin: 0 0 1rem; padding: 1.25rem 1.5rem; background: var(--lilac); border: var(--bw) solid var(--ink); border-radius: var(--r-card); font: italic 400 clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem)/1.45 var(--serif); }
+  .spoken p:last-child { margin-bottom: 0; }
+</style>

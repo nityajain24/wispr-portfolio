@@ -1,0 +1,115 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StoryCover from '../../components/StoryCover.astro';
+import ClaimText from '../../components/ClaimText.astro';
+import AlfredDemo from '../../components/AlfredDemo.astro';
+import { stories } from '../../data/stories';
+import { sources } from '../../data/sources';
+import { url } from '../../data/url';
+import type { Story } from '../../data/types';
+
+export function getStaticPaths() {
+  return stories.map((story, i) => ({
+    params: { id: story.id },
+    props: { story, prev: stories[i - 1], next: stories[i + 1] },
+  }));
+}
+
+interface Props { story: Story; prev?: Story; next?: Story }
+const { story, prev, next } = Astro.props;
+const cited = [...new Set([...story.myPart, ...story.decisions, ...story.outcomes].flatMap((c) => c.sourceIds))]
+  .map((id) => sources.find((s) => s.id === id)!);
+const kindLabel = { primary: 'Primary', self: 'My own', archive: 'Archive', mirror: 'Mirror', press: 'Press' } as const;
+---
+<Layout title={story.title} description={story.summary} current="work">
+  <article>
+    <header class="wrap head">
+      <p class="eyebrow">{story.chapter}</p>
+      <h1 tabindex="-1">{story.title}</h1>
+      <p class="muted">{story.when}</p>
+    </header>
+
+    <div class="wrap">
+      {story.image ? (
+        <figure class="photo">
+          <img src={url(story.image.src)} alt={story.image.alt} loading="eager" />
+          <figcaption>{story.image.caption}</figcaption>
+        </figure>
+      ) : (
+        <StoryCover id={story.id} size="hero" />
+      )}
+
+      <blockquote class="tension">{story.tension}</blockquote>
+
+      <div class="grid">
+        <section class="panel">
+          <h2>The problem</h2>
+          <p style="margin:0">{story.problem}</p>
+        </section>
+        <section class="panel">
+          <h2>My part</h2>
+          <ul>{story.myPart.map((c) => <li><ClaimText claim={c} /></li>)}</ul>
+          {story.teamCredit && <p class="team">{story.teamCredit}</p>}
+        </section>
+        <section class="panel">
+          <h2>What I decided</h2>
+          <ul>{story.decisions.map((c) => <li><ClaimText claim={c} /></li>)}</ul>
+        </section>
+        <section class="panel">
+          <h2>What happened</h2>
+          <ul>{story.outcomes.map((c) => <li><ClaimText claim={c} /></li>)}</ul>
+        </section>
+      </div>
+
+      {story.id === 'alfred' && (
+        <section class="demo-wrap">
+          <h2>How a dinner goes</h2>
+          <span class="ul" aria-hidden="true"><svg viewBox="0 0 300 16" preserveAspectRatio="none"><path pathLength="1" d="M2 10 C 60 4, 110 14, 160 8 S 240 12, 298 7" /></svg></span>
+          <AlfredDemo />
+        </section>
+      )}
+
+      <section class="hard">
+        <h2>What stayed hard</h2>
+        <span class="ul" aria-hidden="true"><svg viewBox="0 0 300 16" preserveAspectRatio="none"><path pathLength="1" d="M2 11 C 40 3, 90 15, 140 7 S 230 5, 298 10" /></svg></span>
+        <p>{story.stillHard}</p>
+      </section>
+
+      <section class="src">
+        <h2>Sources</h2>
+        <span class="ul" aria-hidden="true"><svg viewBox="0 0 300 16" preserveAspectRatio="none"><path pathLength="1" d="M2 9 C 50 14, 100 2, 150 9 S 240 13, 298 6" /></svg></span>
+        <ol class="srclist">
+          {cited.map((s) => (
+            <li id={`src-${s.id}`}>
+              <span class="sid">{s.id}</span>
+              <span><a href={s.url} rel="noopener">{s.label}</a> <span class="muted">· {kindLabel[s.kind]}{s.note ? `. ${s.note}` : ''}</span></span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <nav class="pager" aria-label="More stories">
+        {prev ? <a class="press" href={url(`work/${prev.id}/`)}><span data-wave>← {prev.title}</span></a> : <span />}
+        {next ? <a class="press" href={url(`work/${next.id}/`)}><span data-wave>{next.title} →</span></a> : <a class="press" href={url('growth/')}><span data-wave>Growth, honestly →</span></a>}
+      </nav>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .photo { margin: 0; }
+  .photo img { width: 100%; border: var(--bw) solid var(--ink); border-radius: var(--r-section); display: block; }
+  .photo figcaption { font-size: 0.875rem; color: var(--ink-soft); margin-top: 0.5rem; }
+  .tension { margin: clamp(2.5rem, 2rem + 3vw, 5rem) 0; padding: 0; max-width: 48rem; font: italic 400 var(--fs-h3)/1.15 var(--serif); letter-spacing: -0.03em; }
+
+  .demo-wrap, .src { margin-top: clamp(3rem, 2rem + 4vw, 6rem); }
+  .demo-wrap h2, .src h2, .hard h2 { font-size: var(--fs-h2); line-height: 1.1; margin-bottom: 0.1em; }
+
+  .hard { margin-top: clamp(3rem, 2rem + 4vw, 6rem); background: var(--lilac); border: var(--bw) solid var(--ink); border-radius: var(--r-section); padding: clamp(1.5rem, 1rem + 3vw, 4rem); }
+  .hard p { font: 400 var(--fs-h4)/1.3 var(--serif); letter-spacing: -0.01em; max-width: 40rem; margin: 1rem 0 0; }
+
+  .pager { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; margin-top: clamp(3rem, 2rem + 4vw, 6rem); }
+  @media (min-width: 768px) { .pager { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .pager a { display: flex; align-items: center; min-height: 44px; padding: 1.25rem 1.5rem; background: var(--cream-2); border: var(--bw) solid var(--ink); border-radius: var(--r-panel); text-decoration: none; font: 400 var(--fs-h4)/1.15 var(--serif); letter-spacing: -0.03em; }
+  .pager a:last-child { justify-content: flex-end; text-align: right; background: var(--lilac); }
+</style>

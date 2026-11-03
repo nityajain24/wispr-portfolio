@@ -1,0 +1,38 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import StoryCover from '../../components/StoryCover.astro';
+import { stories } from '../../data/stories';
+import { url } from '../../data/url';
+---
+<Layout title="Work" current="work">
+  <header class="wrap head">
+    <p class="eyebrow">Work</p>
+    <h1 tabindex="-1">Three stories</h1>
+    <p class="muted lede">Each claim is tagged with how you can check it: <span class="tag public-record">Public record</span> <span class="tag corroborated">Corroborated</span> <span class="tag self-reported">Self-reported</span></p>
+  </header>
+  <div class="wrap list">
+    {stories.map((s) => (
+      <a class="card press row" href={url(`work/${s.id}/`)}>
+        <StoryCover id={s.id} />
+        <div class="txt">
+          <p class="eyebrow">{s.chapter}</p>
+          <h2>{s.title}</h2>
+          <p class="muted">{s.summary}</p>
+          <span class="more" data-wave>Read the story →</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .lede { max-width: 40rem; }
+  .list { display: grid; gap: 1.5rem; }
+  .row { grid-template-columns: minmax(0, 1fr); gap: 1rem; align-items: center; }
+  @media (min-width: 768px) { .row { grid-template-columns: 22rem minmax(0, 1fr); gap: 2rem; } }
+  .txt { padding: 0.5rem; }
+  .row h2 { font-size: var(--fs-h3); line-height: 1.1; margin-bottom: 0.3rem; }
+  .row .eyebrow { margin-bottom: 0.4rem; }
+  .row p.muted { margin-bottom: 0.75rem; }
+  .more { font-weight: 600; }
+</style>
