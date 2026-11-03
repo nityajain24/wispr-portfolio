@@ -13,6 +13,7 @@ type Recognition = {
   onresult: ((e: any) => void) | null;
   onerror: ((e: any) => void) | null;
   onend: (() => void) | null;
+  onaudiostart: (() => void) | null;
 };
 
 const PHRASE = /\blet'?s go\b|\blet us go\b|\bletsgo\b/;
@@ -33,6 +34,7 @@ function init(gate: HTMLElement) {
   const field = gate.querySelector<HTMLInputElement>('#gate-field')!;
   const status = gate.querySelector<HTMLElement>('#gate-status')!;
   const skip = gate.querySelector<HTMLButtonElement>('#gate-skip')!;
+  const mic = gate.querySelector<HTMLElement>('#gate-mic')!;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const Ctor = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -43,11 +45,31 @@ function init(gate: HTMLElement) {
   let heard = '';
   let opened = false;
   let idle = 0;
+  let audioOn = false; // true once the mic is actually live (after any permission prompt)
 
   const say = (msg: string) => { status.textContent = msg; };
-  if (!canListen) gate.classList.add('no-voice');
-  // Focus the key, not the box, so phones don't throw up the keyboard on arrival.
-  key.focus({ preventScroll: true });
+  const note = (msg: string) => { mic.textContent = msg; mic.hidden = !msg; };
+
+  // Desktop: focus the box, so holding the real fn key with Wispr Flow types straight into it.
+  // Phones: focus the key instead, so the keyboard doesn't pop up on arrival.
+  const desktop = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (desktop) { field.placeholder = 'Have Flow? Hold your real fn key'; field.focus({ preventScroll: true }); }
+  else key.focus({ preventScroll: true });
+
+  /* Tell people about the microphone before the browser asks. */
+  const MIC_ASK = 'fn uses your microphone. Your browser will ask first, tap Allow.';
+  const MIC_BLOCKED = 'Microphone is blocked for this site. Allow it from the icon in the address bar, or type below.';
+  if (!canListen) { gate.classList.add('no-voice'); note('Voice needs Chrome, Edge or Safari. Type it below instead.'); }
+  else {
+    note(MIC_ASK);
+    try {
+      navigator.permissions?.query({ name: 'microphone' as PermissionName }).then((st) => {
+        const show = () => note(st.state === 'granted' ? '' : st.state === 'denied' ? MIC_BLOCKED : MIC_ASK);
+        show();
+        st.onchange = show;
+      }).catch(() => {});
+    } catch {}
+  }
 
   /* Typewriter: the box catches up with the transcript a few letters at a time, the way
      Flow's text lands. Interim corrections rewind to the shared prefix and retype. */
@@ -111,6 +133,7 @@ function init(gate: HTMLElement) {
     if (opened || listening) return;
     if (!canListen) { field.focus(); say('Type “Let’s go” and press Enter.'); return; }
     listening = true;
+    audioOn = false;
     heard = '';
     field.value = '';
     target = '';
@@ -122,6 +145,7 @@ function init(gate: HTMLElement) {
     rec.lang = 'en-IN';
     rec.continuous = true;
     rec.interimResults = true;
+    rec.onaudiostart = () => { audioOn = true; bumpIdle(); note(''); };
     rec.onresult = (e: any) => {
       let text = '';
       for (let i = 0; i < e.results.length; i++) text += e.results[i][0].transcript + ' ';
@@ -132,15 +156,23 @@ function init(gate: HTMLElement) {
       if (PHRASE.test(normalise(heard))) { typeTo(heard); stopRecognition(); }
     };
     rec.onerror = (e: any) => {
+      console.warn('[gate] speech error:', e.error);
       // No mic or no speech service: don't strand anyone; fall back to typing in the box.
-      if (['not-allowed', 'service-not-allowed', 'network', 'audio-capture'].includes(e.error)) {
+      const msg: Record<string, string> = {
+        'not-allowed': MIC_BLOCKED,
+        'service-not-allowed': 'Voice is turned off in this browser. Type “Let’s go” below.',
+        'audio-capture': 'No microphone found. Type “Let’s go” below.',
+        network: 'Voice isn’t available in this browser right now. Type “Let’s go” below.',
+      };
+      if (msg[e.error]) {
         canListen = false;
         gate.classList.add('no-voice');
         listening = false;
         gate.classList.remove('listening');
         key.setAttribute('aria-pressed', 'false');
+        note(msg[e.error]);
+        say('');
         field.focus();
-        say('No mic here. Type “Let’s go” and press Enter.');
       }
     };
     rec.onend = () => {
@@ -174,7 +206,10 @@ function init(gate: HTMLElement) {
     start();
   }
   function release() {
-    if (pressedAt && Date.now() - pressedAt > HOLD_MS) stop();
+    // A real hold stops on release, but only once the mic was live: letting go while the
+    // permission prompt is up would otherwise end listening before it began.
+    if (pressedAt && Date.now() - pressedAt > HOLD_MS && audioOn) stop();
+    else if (listening) say('Listening… tap fn when you’re done.');
     pressedAt = 0;
   }
 

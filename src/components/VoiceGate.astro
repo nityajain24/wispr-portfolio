@@ -20,6 +20,7 @@
       <button class="go" type="submit" aria-label="Enter">↵</button>
     </form>
     <p id="gate-status" class="gate-status" aria-live="polite"></p>
+    <p id="gate-mic" class="gate-mic" hidden></p>
   </div>
   <button id="gate-skip" class="gate-skip" type="button" data-wave>skip</button>
   <div class="ink" aria-hidden="true"><span>Let’s go.</span></div>
@@ -79,6 +80,8 @@
 
   .gate-status { min-height: 1.5em; margin: 0.8rem 0 0; color: var(--ink-soft); font-size: 0.95rem; }
 
+  .gate-mic { max-width: 22rem; margin: 0.25rem auto 0; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-soft); }
+  .gate-mic::before { content: ''; display: inline-block; width: 0.5rem; height: 0.5rem; margin-right: 0.45rem; border-radius: 50%; background: var(--accent); vertical-align: 0.05em; }
   .gate-skip {
     position: absolute; bottom: max(20px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
     background: none; border: 0; padding: 0 1rem; min-height: 44px; cursor: pointer;
@@ -107,6 +110,7 @@
     .gate-say { margin-top: 1rem; font-size: 1.75rem; }
     .field { margin-top: 0.9rem; }
     .gate-status { margin-top: 0.4rem; }
+    .gate-mic { margin-top: 0; }
     .gate-skip { position: static; transform: none; }
   }
 
