@@ -1,0 +1,72 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { url } from '../../data/url';
+---
+<Layout title="What I’d bring to Wispr Flow" description="Three ideas I’d explore at Wispr Flow: the first useful prompt, understanding mistakes, and where voice fits in real life." current="thread">
+  <header class="wrap head">
+    <p class="back"><a href={url('thread/')}>← Back to the thread</a></p>
+    <p class="eyebrow">The thread, stage 5</p>
+    <h1 tabindex="-1">What I’d bring to Wispr Flow</h1>
+    <p class="muted lede">Ideas I’d explore, not work already shipped or validated.</p>
+  </header>
+
+  <div class="wrap body">
+    <p class="intro">i’ve experienced this shift as someone building products, using AI tools and now speaking to them. I’d like to bring that perspective into making Flow useful in more everyday situations.</p>
+
+    <section class="idea">
+      <h2>start with the first useful prompt</h2>
+      <p>at HyperVerge, i work on BFSI and WealthTech onboarding. i’d bring that experience to testing how a new Flow user reaches their first useful result. for someone building with AI, i’d try a simple starting point: describe an interface you can picture, then use that spoken prompt to build it.</p>
+      <div class="start">
+        <h3>How I’d start</h3>
+        <ul>
+          <li>Try the describe-an-interface exercise with new users who build with AI.</li>
+          <li>Observe whether they reach a usable prompt, where they edit it, and where they get stuck.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="idea">
+      <h2>make mistakes easier to understand</h2>
+      <p>sometimes earphones seem to work better for me than the laptop mic, but i can’t tell whether distance, noise or something else caused a mistake. i’d start by reproducing those situations and testing ways to make them easier to diagnose. one idea i’d explore is a cue for words Flow might have misunderstood before i send them, if that can be supported reliably.</p>
+      <div class="start">
+        <h3>How I’d start</h3>
+        <ul>
+          <li>Reproduce my reported laptop-mic vs earphone experience in comparable conditions before deciding what caused it.</li>
+          <li>Explore whether a useful uncertainty cue is technically reliable before proposing an interface around it.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="idea">
+      <h2>learn where voice fits in real life</h2>
+      <p>Alfred got me thinking about voice for someone like my cook, who understands Hindi, so Alfred replies in Hindi. using Flow at work has also shown me a different constraint: i don’t always want to speak out loud in a shared office. i’d like to understand those situations better, and test where voice genuinely helps, where it doesn’t, and what makes people comfortable using it.</p>
+      <div class="start">
+        <h3>How I’d start</h3>
+        <ul>
+          <li>Talk to people in shared offices and people who prefer speaking in Indian languages.</li>
+          <li>Learn when speaking is comfortable and when quiet input is better.</li>
+        </ul>
+      </div>
+      <p class="muted see"><a href={url('work/alfred/')}>Read the Alfred story →</a></p>
+    </section>
+
+    <p class="closing">i’m interested in taking the gap between what someone imagines and what they can express, and making that gap smaller.</p>
+    <p><a class="btn" href={url('thread/')}><span>← Back to the thread</span></a></p>
+  </div>
+</Layout>
+
+<style>
+  .back { margin: 0 0 1rem; }
+  .back a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 600; }
+  .head h1 { max-width: 16ch; }
+  .body { max-width: calc(44rem + 2 * var(--gutter)); padding-bottom: var(--section-y); }
+  .intro { font-size: var(--fs-lede); line-height: 1.4; }
+  .idea { margin-top: 2.5rem; padding-top: 1.25rem; border-top: var(--bw) solid var(--ink); }
+  .idea h2 { font-size: var(--fs-h4); line-height: 1.15; }
+  .start { margin-top: 1rem; padding: 1rem 1.25rem; background: var(--lilac); border: var(--bw) solid var(--ink); border-radius: var(--r-panel); }
+  .start h3 { margin: 0 0 0.4rem; font: 600 0.875rem/1.5 var(--sans); letter-spacing: 0.03em; text-transform: uppercase; }
+  .start ul { margin: 0; padding-left: 1.2rem; }
+  .start li + li { margin-top: 0.4rem; }
+  .see { margin: 0.75rem 0 0; }
+  .closing { margin: 3rem 0 1.5rem; font: italic 400 var(--fs-h4)/1.25 var(--serif); letter-spacing: -0.03em; }
+</style>

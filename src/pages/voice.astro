@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { voiceLog } from '../data/voicelog';
 ---
-<Layout title="Built by voice" current="voice">
+<Layout title="Built by voice" description="The prompts I spoke into Wispr Flow to build this portfolio." current="voice">
   <header class="wrap head">
     <p class="eyebrow">Built by voice</p>
     <h1 tabindex="-1">The prompts I spoke to build this</h1>
@@ -11,7 +11,7 @@ import { voiceLog } from '../data/voicelog';
   <div class="wrap">
     <ol class="log">
       {voiceLog.map((v, i) => (
-        <li>
+        <li id={`prompt-${i + 1}`}>
           <p class="eyebrow">Prompt {i + 1} · {v.date}</p>
           <blockquote class="spoken">{v.prompt.split('\n\n').map((p) => <p>{p}</p>)}</blockquote>
           <div class="out">

@@ -1,0 +1,123 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { url } from '../../data/url';
+---
+<Layout title="The thread" description="How I went from writing code by hand to speaking to Claude Code with Wispr Flow, and what that experience points me toward at Wispr." current="thread">
+  <header class="wrap head">
+    <p class="eyebrow">The thread</p>
+    <h1 tabindex="-1">How I got from writing code to speaking it</h1>
+    <p class="muted lede">Five stages, one line through them. It is a connection, not a timeline.</p>
+  </header>
+
+  <div class="wrap">
+    <ol class="thread">
+      <li class="stage">
+        <p class="label">Stage 1 of 5</p>
+        <div class="card-s">
+          <h2>Coding by hand</h2>
+          <p>in college, i built by writing code myself.</p>
+        </div>
+      </li>
+
+      <li class="stage">
+        <p class="label">Stage 2 of 5</p>
+        <div class="card-s">
+          <h2>ChatGPT / Claude</h2>
+          <p>then ChatGPT and Claude became part of the process.</p>
+        </div>
+      </li>
+
+      <li class="stage">
+        <p class="label">Stage 3 of 5</p>
+        <div class="card-s">
+          <h2>Typed prompts in Claude Code</h2>
+          <p>with Claude Code, i could describe what i wanted and build from there.</p>
+          <p>but describing it was still work. sometimes i could see an interaction in my head much more clearly than i could type it out.</p>
+        </div>
+      </li>
+
+      <li class="stage" id="flow">
+        <p class="label">Stage 4 of 5</p>
+        <div class="card-s">
+          <h2>Spoken prompts with Flow</h2>
+          <p>Flow helped me bridge that gap. i could speak through the layout, the movement, and how i wanted something to feel, instead of trying to compress it into a neatly typed prompt. Claude Code could turn that description into something i could see, test and change.</p>
+          <p>for me, that meant better prompts and products closer to what i’d imagined. the entrance interaction and separate story pages on this portfolio are two examples from that process.</p>
+
+          <figure class="receipts">
+            <h3>The receipts</h3>
+            <dl>
+              <div><dt>desktop words dictated</dt><dd>29,135</dd></div>
+              <div><dt>AI prompts, 66% of usage</dt><dd>383</dd></div>
+              <div><dt>apps used</dt><dd>23</dd></div>
+            </dl>
+            <figcaption>Source: my Wispr Flow work account at HyperVerge, captured on 3 Nov 2026. These are account-wide usage figures, not portfolio-only numbers; no date range is shown.</figcaption>
+          </figure>
+
+          <h3 class="ex-h">The two examples</h3>
+          <ul class="examples">
+            <li>
+              <strong>The entrance interaction</strong>
+              <span>Documented with the fn / “Let’s go” build prompt.</span>
+              <a href={url('voice/#prompt-1')}>Read prompt 1 →</a>
+            </li>
+            <li>
+              <strong>The separate story pages</strong>
+              <span>Documented in the existing build log.</span>
+              <a href={url('voice/#prompt-2')}>Read prompt 2 →</a>
+            </li>
+          </ul>
+          <p><a class="btn" href={url('voice/')}><span>See the Built by voice examples</span></a></p>
+        </div>
+      </li>
+
+      <li class="stage">
+        <p class="label">Stage 5 of 5</p>
+        <div class="card-s final">
+          <h2>What I’d bring to Wispr Flow</h2>
+          <p>turning that experience and my own friction into product experiments. ideas to explore, not shipped work.</p>
+          <p><a class="btn" href={url('thread/wispr/')}><span>Read what I’d bring →</span></a></p>
+          <p class="related muted">Where it comes from, in earlier work that was not built with Flow: <a href={url('work/mystic/')}>Mystic Labs</a>, product-building with a team (the case study keeps team and individual scope apart), and <a href={url('work/alfred/')}>Alfred</a>, voice in everyday life.</p>
+        </div>
+      </li>
+    </ol>
+  </div>
+</Layout>
+
+<style>
+  .head h1 { max-width: 18ch; }
+  .thread { list-style: none; margin: 0; padding: 0 0 var(--section-y); max-width: 46rem; position: relative; }
+  /* the continuous line sits in a left gutter at every width */
+  .thread::before { content: ''; position: absolute; left: 0.6875rem; top: 0.5rem; bottom: var(--section-y); width: var(--bw); background: var(--ink); }
+  .stage { position: relative; padding-left: 2.75rem; padding-bottom: 2rem; }
+  .stage:last-child { padding-bottom: 0; }
+  .stage::before {
+    content: ''; position: absolute; left: 0; top: 0.2rem; width: 1.5rem; height: 1.5rem; box-sizing: border-box;
+    border: var(--bw) solid var(--ink); border-radius: 50%; background: var(--lilac);
+  }
+  .stage:nth-child(even)::before { background: var(--blush); }
+  .stage:last-child::before { background: var(--ink); }
+  .label { margin: 0 0 0.5rem; font: 600 0.875rem/1.5 var(--sans); letter-spacing: 0.03em; text-transform: uppercase; color: var(--ink); }
+  .card-s { padding: 1.25rem; background: var(--cream-2); border: var(--bw) solid var(--ink); border-radius: var(--r-card); }
+  .card-s h2 { font-size: var(--fs-h4); line-height: 1.15; margin: 0 0 0.5rem; }
+  .card-s p:last-child { margin-bottom: 0; }
+  .final { background: var(--lilac); }
+
+  .receipts { margin: 1.5rem 0; padding: 1rem; border: var(--bw) solid var(--ink); border-radius: var(--r-panel); background: var(--cream); }
+  .receipts h3 { font-size: 1.25rem; margin: 0 0 0.75rem; }
+  .receipts dl { margin: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; }
+  .receipts dl > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; padding: 0.75rem; border: var(--bw) solid var(--ink); border-radius: 0.75rem; background: var(--cream-2); }
+  .receipts dd { margin: 0; font: 400 clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem)/1 var(--serif); letter-spacing: -0.03em; }
+  .receipts dt { font-size: 0.875rem; line-height: 1.3; color: var(--ink-soft); margin-top: 0.35rem; }
+  .receipts figcaption { margin-top: 0.75rem; font-size: 0.875rem; line-height: 1.45; color: var(--ink-soft); }
+  @media (max-width: 520px) {
+    .receipts dl { grid-template-columns: minmax(0, 1fr); }
+    .receipts dl > div { flex-direction: row-reverse; justify-content: flex-end; align-items: baseline; gap: 0.75rem; }
+    .receipts dt { margin-top: 0; }
+  }
+
+  .ex-h { font-size: 1.25rem; margin: 0 0 0.5rem; }
+  .examples { list-style: none; margin: 0 0 1.25rem; padding: 0; display: grid; gap: 0.75rem; }
+  .examples li { display: grid; gap: 0.15rem; padding-left: 0.75rem; border-left: 4px solid var(--ink); }
+  .examples a { font-weight: 600; min-height: 44px; display: inline-flex; align-items: center; }
+  .related { margin-top: 1.25rem; font-size: 0.9375rem; }
+</style>

@@ -53,7 +53,10 @@ function init(gate: HTMLElement) {
   // Desktop: focus the box, so holding the real fn key with Wispr Flow types straight into it.
   // Phones: focus the key instead, so the keyboard doesn't pop up on arrival.
   const desktop = matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (desktop) { field.placeholder = 'Have Flow? Hold your real fn key'; field.focus({ preventScroll: true }); }
+  // Flow's default shortcut: fn on Mac, Ctrl + Win on Windows. Phones keep the plain placeholder.
+  const ua = ((navigator as any).userAgentData?.platform || navigator.platform || navigator.userAgent || '').toLowerCase();
+  const hotkey = ua.includes('mac') ? 'your real fn key' : ua.includes('win') ? 'Ctrl + Win' : '';
+  if (desktop) { if (hotkey) field.placeholder = `Have Flow? Hold ${hotkey}`; field.focus({ preventScroll: true }); }
   else key.focus({ preventScroll: true });
 
   /* Tell people about the microphone before the browser asks. */
@@ -77,7 +80,7 @@ function init(gate: HTMLElement) {
   let tick = 0;
   function typeTo(text: string) {
     target = text;
-    if (reduced) { field.value = target; return; }
+    if (reduced) { field.value = target; check(); return; }
     if (tick) return;
     tick = window.setInterval(() => {
       const cur = field.value;

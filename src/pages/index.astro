@@ -62,6 +62,13 @@ const names = ['Ghy Fights Covid', 'Mystic Labs', 'ChaturGPT', 'Bloc', 'Alfred']
     ))}
   </section>
 
+  <section class="wrap teaser">
+    <a class="card press" data-reveal href={url('thread/')}>
+      <span class="eyebrow">The thread</span>
+      <strong>From writing code by hand to speaking it, and what I’d bring to Wispr Flow →</strong>
+    </a>
+  </section>
+
   <section class="wrap strip">
     <a class="card press" data-reveal style="--d:0" href={url('growth/')}><span class="eyebrow">Growth</span><strong>What I’ve owned →</strong></a>
     <a class="card press" data-reveal style="--d:1" href={url('voice/')}><span class="eyebrow">Built by voice</span><strong>The prompts I spoke to build this →</strong></a>
@@ -142,6 +149,11 @@ const names = ['Ghy Fights Covid', 'Mystic Labs', 'ChaturGPT', 'Bloc', 'Alfred']
   .card .more { margin-top: 0.5rem; font-weight: 600; }
   .card > .eyebrow, .card > h3, .card > p, .card > .more { padding-inline: 0.5rem; }
   .card > .more { padding-bottom: 0.5rem; }
+
+  .teaser { padding-top: 1.5rem; }
+  .teaser .card { padding: 1.5rem; background: var(--blush); }
+  .teaser strong { font: 400 var(--fs-h4)/1.15 var(--serif); letter-spacing: -0.03em; max-width: 30ch; }
+  .teaser .eyebrow { margin: 0; color: var(--ink); }
 
   .strip { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.5rem; padding-top: 1.5rem; }
   @media (min-width: 768px) { .strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

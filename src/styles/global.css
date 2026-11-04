@@ -119,6 +119,8 @@ a:hover { text-decoration-color: var(--ink); }
 .srclist { list-style: none; margin: 1.5rem 0 0; padding: 0; max-width: 50rem; }
 .srclist li { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 0.5rem; padding: 0.85rem 0; border-top: var(--bw) solid var(--line); scroll-margin-top: 6rem; font-size: 0.9375rem; }
 .srclist li:target { background: var(--lilac); border-radius: 6px; }
+.srclist a { padding-block: 0.7rem; }
+#main:focus { outline: none; }
 .sid { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 
 /* scroll-drawn underline */

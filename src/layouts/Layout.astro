@@ -13,6 +13,7 @@ const {
 const nav = [
   { href: 'work/', label: 'Work', key: 'work' },
   { href: 'growth/', label: 'Growth', key: 'growth' },
+  { href: 'thread/', label: 'The thread', key: 'thread' },
   { href: 'voice/', label: 'Built by voice', key: 'voice' },
   { href: 'about/', label: 'About', key: 'about' },
 ];
@@ -57,7 +58,7 @@ const nav = [
           </div>
         </header>
       </div>
-      <main id="main">
+      <main id="main" tabindex="-1">
         <slot />
       </main>
       <footer class="foot">
@@ -106,7 +107,7 @@ const nav = [
   main { padding-top: 6.5rem; }
 
   .foot { margin-top: var(--section-y); background: var(--ink); color: var(--cream); border-radius: var(--r-section) var(--r-section) 0 0; padding: clamp(3rem, 2rem + 4vw, 6rem) 0 2.5rem; }
-  .foot a { color: var(--cream); text-decoration-color: #ffffeb80; display: inline-flex; align-items: center; min-height: 44px; }
+  .foot a { color: var(--cream); text-decoration-color: #ffffeb80; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; }
   .foot a:hover { text-decoration-color: var(--cream); }
   .foot .big { font: 400 var(--fs-h3)/1.1 var(--serif); letter-spacing: -0.03em; max-width: 20ch; margin: 0 0 2rem; }
   .foot ul { list-style: none; margin: 0 0 2rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.5rem; }

@@ -6,6 +6,7 @@
   <div class="gate-inner">
     <button id="gate-key" class="key" type="button" aria-pressed="false" aria-label="fn: tap, then say “Let’s go”">
       <span class="key-fn">fn</span>
+      <span class="key-hint" aria-hidden="true">tap me</span>
       <svg class="key-globe" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
         <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8" />
         <ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="1.8" />
@@ -13,6 +14,7 @@
       </svg>
     </button>
     <p class="gate-say">Tap <span class="kbd">fn</span>, say <em>“Let’s go.”</em></p>
+    <p class="gate-sub">Tap the key above, then say it out loud.</p>
     <form id="gate-form" class="field" autocomplete="off">
       <label class="sr-only" for="gate-field">Or type “Let’s go”</label>
       <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
@@ -44,6 +46,20 @@
     touch-action: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
   }
   .key-fn { position: absolute; top: 16px; right: 20px; font: 600 1.45rem/1 var(--sans); }
+  /* Make the key read as the thing to press: a label on it and a slow pulsing ring. */
+  .key-hint {
+    position: absolute; left: 50%; top: 56%; transform: translate(-50%, -50%);
+    padding: 0.3rem 0.7rem; border-radius: 999px; background: var(--ink); color: var(--cream);
+    font: 600 0.8125rem/1 var(--sans); letter-spacing: 0.04em; white-space: nowrap; pointer-events: none;
+  }
+  .key::after {
+    content: ''; position: absolute; inset: -6px; border-radius: 30px; border: 2px solid var(--ink);
+    opacity: 0; pointer-events: none; animation: key-pulse 1.8s ease-out infinite;
+  }
+  @keyframes key-pulse { 0% { transform: scale(0.96); opacity: 0.55; } 100% { transform: scale(1.14); opacity: 0; } }
+  :global(#gate.listening) .key-hint, :global(#gate.listening) .key::after { display: none; }
+  .gate-sub { display: none; margin: 0.6rem 0 0; font-size: 1rem; color: var(--ink-soft); }
+  @media (hover: none), (pointer: coarse) { .gate-sub { display: block; } }
   .key-globe { position: absolute; bottom: 18px; left: 20px; width: 26px; height: 26px; }
   :global(#gate.listening) .key {
     transform: translate(2px, 2px); box-shadow: none; background: var(--blush);
@@ -107,15 +123,18 @@
     .key { width: 96px; height: 96px; border-radius: 18px; }
     .key-fn { top: 10px; right: 13px; font-size: 1.1rem; }
     .key-globe { bottom: 11px; left: 13px; width: 20px; height: 20px; }
+    .key-hint { font-size: 0.75rem; padding: 0.25rem 0.55rem; }
+    .gate-sub { display: none !important; }
     .gate-say { margin-top: 1rem; font-size: 1.75rem; }
     .field { margin-top: 0.9rem; }
     .gate-status { margin-top: 0.4rem; }
     .gate-mic { margin-top: 0; }
-    .gate-skip { position: static; transform: none; }
+    .gate-skip { position: static; transform: none; margin-top: 0.5rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .key, .ink, .ink span { transition: none; }
+    .key::after { animation: none; opacity: 0; }
     .bars i { animation: none; transform: scaleY(0.7); }
     :global(#gate.leaving) { transition: opacity 150ms linear; }
   }
